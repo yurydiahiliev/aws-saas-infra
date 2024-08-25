@@ -23,7 +23,7 @@ resource "aws_iam_policy" "eks_policy" {
   name = "eks-policy"
   description = "Policy for EKS to manage ELB"
 
-  policy = file("iam/iam-policy.json")
+  policy = file("/Users/yuriidiahiliev/Downloads/aws-saas-infrastructure/helm-charts/kubernetes/iam/iam-policy.json")
 }
 
 resource "aws_iam_role_policy_attachment" "eks_attach_policy" {
