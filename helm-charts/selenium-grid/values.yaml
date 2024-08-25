@@ -1,0 +1,37 @@
+replicaCount: 1
+
+image:
+  repository: selenium/hub
+  tag: 4.23.1-20240820
+  pullPolicy: IfNotPresent
+
+nodeImage:
+  repository: selenium/node-chrome
+  tag: 127.0
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    service.beta.kubernetes.io/aws-load-balancer-internal: "false"
+  port: 4444
+
+resources: {}
+
+node:
+  replicas: 3
+  resources: {}
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  hosts:
+    - host: selenium.mydomain.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []

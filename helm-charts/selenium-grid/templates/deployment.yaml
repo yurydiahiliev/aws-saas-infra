@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "selenium-grid.fullname" . }}
+  labels:
+    app: {{ include "selenium-grid.name" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "selenium-grid.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "selenium-grid.name" . }}
+    spec:
+      containers:
+      - name: selenium-hub
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - containerPort: 4444
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "selenium-grid.fullname" . }}-nodes
+  labels:
+    app: {{ include "selenium-grid.name" . }}-nodes
+spec:
+  replicas: {{ .Values.node.replicas }}
+  selector:
+    matchLabels:
+      app: {{ include "selenium-grid.name" . }}-nodes
+  template:
+    metadata:
+      labels:
+        app: {{ include "selenium-grid.name" . }}-nodes
+    spec:
+      containers:
+      - name: node-chrome
+        image: "{{ .Values.nodeImage.repository }}:{{ .Values.nodeImage.tag }}"
+        ports:
+        - containerPort: 5555
+        env:
+        - name: SE_EVENT_BUS_HOST
+          value: "{{ include "selenium-grid.fullname" . }}"
+        - name: SE_EVENT_BUS_PUBLISH_PORT
+          value: "4442"
+        - name: SE_EVENT_BUS_SUBSCRIBE_PORT
+          value: "4443"

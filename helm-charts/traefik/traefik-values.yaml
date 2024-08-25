@@ -1,0 +1,26 @@
+deployment:
+  replicas: 2
+
+service:
+  type: LoadBalancer
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    service.beta.kubernetes.io/aws-load-balancer-internal: "false"
+
+ingressRoute:
+  dashboard:
+    enabled: true
+
+logs:
+  general:
+    level: WARN
+  access:
+    enabled: true
+
+ports:
+  web:
+    redirectTo: websecure
+  websecure:
+    tls:
+      enabled: true

@@ -1,0 +1,24 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "elasticloadbalancing:*",
+          "ec2:DescribeInstances",
+          "ec2:DescribeRegions",
+          "ec2:DescribeTags",
+          "ec2:Get*",
+          "ec2:DescribeSubnets",
+          "ec2:DescribeSecurityGroups",
+          "iam:ListRoles",
+          "cognito-idp:DescribeUserPoolClient",
+          "waf:GetWebACLForResource",
+          "waf:AssociateWebACL",
+          "waf:DisassociateWebACL"
+        ],
+        "Resource": "*"
+      }
+    ]
+  }
+  
